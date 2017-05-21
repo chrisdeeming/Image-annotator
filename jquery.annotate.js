@@ -1,5 +1,7 @@
-(function($) {
-	$.fn.annotatableImage = function(annotationCallback, options) {
+(function($)
+ {
+	$.fn.annotatableImage = function(annotationCallback, options)
+	{
 		var defaults = {
 			xPosition: 'middle',
 			yPosition: 'middle'
@@ -9,8 +11,10 @@
 		var image = $('img', this)[0];
 		var date = new Date();
 		var startTime = date.getTime();
-		this.mousedown(function(event) {
-			if (event.target == image) {
+		this.mousedown(function(event)
+		{
+			if (event.target == image)
+			{
 				event.preventDefault();
 				var element = annotationCallback();
 				annotations.push(element);
@@ -21,7 +25,9 @@
 			}
 		});
 	};
-	$.fn.addAnnotations = function(annotationCallback, annotations, options) {
+	
+	$.fn.addAnnotations = function(annotationCallback, annotations, options)
+	{
 		var container = this;
 		var containerHeight = $(container).height();
 		var defaults = {
@@ -30,7 +36,8 @@
 			height: containerHeight
 		};
 		var options = $.extend(defaults, options);
-		$.each(annotations, function() {
+		$.each(annotations, function()
+		{
 			var element = annotationCallback(this);
 			element.css({
 				position: 'absolute'
@@ -38,7 +45,8 @@
 			$(container).append(element);
 			var left = (this.x * $(container).width()) - ($(element).xOffset(options.xPosition));
 			var top = (this.y * options.height) - ($(element).yOffset(options.yPosition));
-			if (this.width && this.height) {
+			if (this.width && this.height)
+			{
 				var width = (this.width * $(container).width());
 				var height = (this.height * $(container).height());
 				element.css({
@@ -55,15 +63,20 @@
 			}
 		});
 	};
-	$.fn.positionAtEvent = function(event, xPosition, yPosition) {
+	
+	$.fn.positionAtEvent = function(event, xPosition, yPosition)
+	{
 		var container = $(this).parent('div');
 		$(this).css('left', event.pageX - container.offset().left - ($(this).xOffset(xPosition)) + 'px');
 		$(this).css('top', event.pageY - container.offset().top - ($(this).yOffset(yPosition)) + 'px');
 		$(this).css('position', 'absolute');
 	};
-	$.fn.seralizeAnnotations = function(xPosition, yPosition) {
+	
+	$.fn.serializeAnnotations = function(xPosition, yPosition)
+	{
 		var annotations = [];
-		this.each(function() {
+		this.each(function()
+		{
 			annotations.push({
 				x: $(this).relativeX(xPosition),
 				y: $(this).relativeY(yPosition),
@@ -72,24 +85,35 @@
 		});
 		return annotations;
 	};
-	$.fn.relativeX = function(xPosition) {
+	
+	$.fn.relativeX = function(xPosition)
+	{
 		var left = $(this).coordinates().x + ($(this).xOffset(xPosition));
 		var width = $(this).parent().width();
 		return left / width;
-	}
-	$.fn.relativeY = function(yPosition) {
+	};
+	
+	$.fn.relativeY = function(yPosition)
+	{
 		var top = $(this).coordinates().y + ($(this).yOffset(yPosition));
 		var height = $(this).parent().height();
 		return top / height;
-	}
-	$.fn.relativeWidth = function() {
+	};
+	
+	$.fn.relativeWidth = function()
+	{
 		return $(this).width() / $(this).parent().width();
-	}
-	$.fn.relativeHeight = function() {
+	};
+	
+	$.fn.relativeHeight = function()
+	{
 		return $(this).height() / $(this).parent().height();
-	}
-	$.fn.xOffset = function(xPosition) {
-		switch (xPosition) {
+	};
+	
+	$.fn.xOffset = function(xPosition)
+	{
+		switch (xPosition)
+		{
 			case 'left':
 				return 0;
 				break;
@@ -100,8 +124,11 @@
 				return $(this).width() / 2; // middle
 		}
 	};
-	$.fn.yOffset = function(yPosition) {
-		switch (yPosition) {
+	
+	$.fn.yOffset = function(yPosition)
+	{
+		switch (yPosition)
+		{
 			case 'top':
 				return 0;
 				break;
@@ -112,7 +139,9 @@
 				return $(this).height() / 2; // middle
 		}
 	};
-	$.fn.coordinates = function() {
+	
+	$.fn.coordinates = function()
+	{
 		return {
 			x: parseInt($(this).css('left').replace('px', '')),
 			y: parseInt($(this).css('top').replace('px', ''))
